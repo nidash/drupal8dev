@@ -1,0 +1,40 @@
+version: '3.1'
+
+services:
+  drupal:
+    image: drupal:8.6
+    container_name: drupal8dev
+    ports:
+      - ${port}:80
+    volumes:
+      - modules-native-osx-sync:/var/www/html/modules:nocopy # nocopy is important
+      - themes-native-osx-sync:/var/www/html/themes:nocopy # nocopy is important
+      - profiles-native-osx-sync:/var/www/html/profiles:nocopy # nocopy is important
+      # this takes advantage of the feature in Docker that a new anonymous
+      # volume (which is what we're creating here) will be initialized with the
+      # existing content of the image at the same location
+      - /var/www/html/sites
+    restart: always
+
+  mysql:
+    image: mysql:5.7
+    container_name: drupal8dev_mysql
+    command: mysqld --max_allowed_packet=64M
+    ports:
+      - ${db_port}:3306
+    volumes:
+      - ./backup:/docker-entrypoint-initdb.d  
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=drupal
+      - MYSQL_USER=drupal_user
+      - MYSQL_PASSWORD=drupal_pass
+        
+# that the important thing
+volumes:
+  modules-native-osx-sync:
+    external: true    
+  themes-native-osx-sync:
+    external: true  
+  profiles-native-osx-sync:
+    external: true  

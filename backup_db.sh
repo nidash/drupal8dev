@@ -1,0 +1,1 @@
+docker exec drupal8dev_mysql sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD" | gzip -c ' > ./backup/all-databases.gz

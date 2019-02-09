@@ -1,0 +1,11 @@
+version: "2"
+
+options:
+  verbose: true
+syncs:
+  modules-native-osx-sync: # tip: add -sync and you keep consistent names as a convention
+    src: ${modules}
+  themes-native-osx-sync: # tip: add -sync and you keep consistent names as a convention
+    src: ${themes}
+  profiles-native-osx-sync: # tip: add -sync and you keep consistent names as a convention
+    src: ${profiles}
